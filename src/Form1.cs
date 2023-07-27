@@ -15,7 +15,6 @@ namespace GridLife
         Player player;
         private static System.Timers.Timer timer50;
         private static System.Timers.Timer timer200;
-
         public Form1()
         {
             Console.WriteLine($"Screen width: {width} height: {height}");
@@ -41,7 +40,6 @@ namespace GridLife
 
             DebugTools.Set(ref terrain);
         }
-
         void SetTimer()
         {
             timer50 = new System.Timers.Timer(50);
@@ -51,11 +49,10 @@ namespace GridLife
             timer50.Enabled = true;
             timer200.Enabled = true;
         }
-
         private void GameTime50(object source, ElapsedEventArgs e)
         {
-            if(terrain.GetLoadedPos(player.pos).x > terrain.width - 10) terrain.MoveLoadedPos(new Vector2(1, 0));
-            if(terrain.GetLoadedPos(player.pos).y > terrain.height - 10) terrain.MoveLoadedPos(new Vector2(0, 1));
+            if(terrain.GetLoadedPos(player.pos).x > terrain.size.x - 10) terrain.MoveLoadedPos(new Vector2(1, 0));
+            if(terrain.GetLoadedPos(player.pos).y > terrain.size.y - 10) terrain.MoveLoadedPos(new Vector2(0, 1));
             if(terrain.GetLoadedPos(player.pos).x < 10) terrain.MoveLoadedPos(new Vector2(-1, 0));
             if(terrain.GetLoadedPos(player.pos).y < 10) terrain.MoveLoadedPos(new Vector2(0, -1));
 
@@ -68,7 +65,6 @@ namespace GridLife
                 ent.Pathfind(player.pos);
             }
         }
-
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
@@ -77,9 +73,9 @@ namespace GridLife
             SolidBrush rectBrush = new(Color.White);
 
             int posX = spacing;
-            for(int x = 0; x < terrain.width; x++) {
+            for(int x = 0; x < terrain.size.x; x++) {
                 int posY = spacing;
-                for(int y = 0; y < terrain.height; y++) {
+                for(int y = 0; y < terrain.size.y; y++) {
                     rectBrush.Color = terrain.loadedTiles[x, y].color;
                     g.FillRectangle(rectBrush, posX, posY, tileSize, tileSize);
                     posY += tileSize + spacing;
@@ -87,7 +83,6 @@ namespace GridLife
                 posX += tileSize + spacing;
             }
         }
-
         private void Form1_KeyDown(object sender, KeyEventArgs e)
         {
             switch(e.KeyCode) {

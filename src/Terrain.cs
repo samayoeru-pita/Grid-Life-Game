@@ -6,20 +6,19 @@ namespace GridLife.src
     {
         public Tile[,] loadedTiles;
         public Tile[,] tiles;
-        public readonly int width, height;
+        public readonly Vector2 size;
         private Vector2 loadedPos;
         public readonly Vector2 maxBounds;
         public Entity[] entities;
 
         public Terrain(Vector2 loadRes, Vector2 bounds, Vector2 loadPos)
         {
-            width = loadRes.x;
-            height = loadRes.y;
+            size = loadRes;
             maxBounds = bounds;
             loadedPos = loadPos;
             tiles = new Tile[bounds.x, bounds.y];
-            loadedTiles = new Tile[width, height];
-            Console.WriteLine($"Terrain width: {width}, height: {height}");
+            loadedTiles = new Tile[size.x, size.y];
+            Console.WriteLine($"Terrain width: {size.x}, height: {size.y}");
             GenerateTerrain(ref tiles);
             LoadTiles();
             entities = new Entity[3];
@@ -68,9 +67,9 @@ namespace GridLife.src
 
         public Vector2 GetTileIndex(Tile t)
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < size.x; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < size.y; y++)
                 {
                     if (t.Equals(loadedTiles[x, y]))
                     {
@@ -83,9 +82,9 @@ namespace GridLife.src
 
         public void LoadTiles()
         {
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < size.x; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < size.y; y++)
                 {
                     loadedTiles[x, y] = tiles[x + loadedPos.x, y + loadedPos.y];
                 }
@@ -95,7 +94,7 @@ namespace GridLife.src
         public void MoveLoadedPos(Vector2 dir)
         {
             Vector2 newLoadedPos = loadedPos + dir;
-            if (newLoadedPos.x >= 0 && newLoadedPos.y >= 0 && newLoadedPos.x + width - 1 < maxBounds.x && newLoadedPos.y + height - 1 < maxBounds.y)
+            if (newLoadedPos.x >= 0 && newLoadedPos.y >= 0 && newLoadedPos.x + size.x - 1 < maxBounds.x && newLoadedPos.y + size.y - 1 < maxBounds.y)
             {
                 loadedPos = newLoadedPos;
                 LoadTiles();

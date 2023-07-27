@@ -18,12 +18,12 @@ namespace GridLife
 
         public void Pathfind(Vector2 target)
         {
-            openT = new Dictionary<Vector2, int>();
-            closedT = new Dictionary<Vector2, int>();
+            openT = new();
+            closedT = new();
             path = new List<Vector2>();
-            Dictionary<Vector2, int> fScores = new Dictionary<Vector2, int>();
-            Dictionary<Vector2, int> gScores = new Dictionary<Vector2, int>();
-            Dictionary<Vector2, Vector2> cameFrom = new Dictionary<Vector2, Vector2>();
+            Dictionary<Vector2, int> fScores = new();
+            Dictionary<Vector2, int> gScores = new();
+            Dictionary<Vector2, Vector2> cameFrom = new();
 
             gScores[pos] = 0;
             fScores[pos] = HeuristicCost(pos, target);
@@ -37,7 +37,6 @@ namespace GridLife
 
                 if (current == target) {
                     while(cameFrom.ContainsKey(current)) {
-                        DebugTools.AddTile(current);
                         path.Insert(0, current);
                         current = cameFrom[current];
                     }
